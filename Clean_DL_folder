@@ -1,0 +1,35 @@
+from watchdog.observer import observer
+from watchdog.events import FileSystemEventHandler
+
+# you will need to pip install for watchdog to work.
+
+import os
+import json
+import time
+
+class EventHandler(FileSystemEventHandler):
+    i = 1
+    def on_mod(self, event):
+        new_name = "newfile" + str(self.i) + ".txt"
+        for filename in os.listdir(tracked_folder):
+            file_present = os.path.isfile(new_folder + "/" + new_name)
+            while file_present:
+                self.i += 1
+                new_name = "newfile" + str(self.i) + "txt"
+            src = tracked_folder + "/" + filename
+            new_path = new_folder + "/" + filename
+            os.rename(src, new_path)
+
+tracked_folder = "/Users/kaijohnson/Downloads"
+new_folder = "/Users/kaijohnson/Documents"
+eh = EventHandler()
+observer = Observer
+observer.schedule(eh, tracked_folder, recursive=True)
+
+try:
+    while True:
+        time.sleep(10)
+except KeyboardWake:
+    observer.stop()
+observer.join()
+        
